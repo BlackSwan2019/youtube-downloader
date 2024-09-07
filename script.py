@@ -89,6 +89,12 @@ def download_videos():
         video_title = video_data['title']
         video_id = video_data['resourceId']['videoId']
 
+        # Skip download if file already exists.
+        if os.path.exists(rf'C:\Users\Ben\Documents\Development\youtube-downloader\downloads\{video_title}.mp3'):
+            print(
+                f'File "{video_title}.mp3" already exists. Skipping download.')
+            continue
+
         message = f'{index + 1}. Downloading {video_title}'
         equal_signs = create_string('=', len(message))
 
