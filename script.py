@@ -100,7 +100,7 @@ def download_videos():
         video_url = 'https://youtube.com/watch?v=' + video_id
 
         subprocess.run(
-            [yt_dlp_command, '-x', '--audio-format', 'mp3', '--paths', output_path, video_url], check=True)
+            [yt_dlp_command, '-x', '--audio-format', 'mp3', '-o', '%(title)s.%(ext)s', '--paths', output_path, video_url], check=True)
 
     end_time = time.time()
 
