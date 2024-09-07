@@ -11,7 +11,7 @@ def create_string(char, n):
 
 def download_videos():
     """Download the list of videos"""
-    html_filepath = r'source.html'
+    html_filepath = 'source.html'
 
     html_file = open(html_filepath, 'r', encoding='utf8')
 
@@ -33,8 +33,8 @@ def download_videos():
 
                 print(f' {equal_signs} \n {message} \n {equal_signs}')
 
-                yt_dlp_command = r'yt-dlp.exe'
-                output_path = r'downloads'
+                yt_dlp_command = 'yt-dlp.exe'
+                output_path = 'downloads'
 
                 video_url = 'https://youtube.com' + video_href
 
