@@ -3,35 +3,47 @@
 import subprocess
 from bs4 import BeautifulSoup
 
-HTML_FILEPATH = r'C:\Users\Ben\Documents\Development\youtube-download\fullSource.html'
 
-htmlFile = open(HTML_FILEPATH, 'r', encoding='utf8')
+def create_string(char, n):
+    """Create a string of same chars N chars long"""
+    return char * n
 
-htmlContent = htmlFile.read()
 
-parsedHtml = BeautifulSoup(htmlContent, 'html.parser')
+def download_videos():
+    """Download the list of videos"""
+    html_filepath = r'C:\Users\Ben\Documents\Development\youtube-download\fullSource.html'
 
-containerElement = parsedHtml.find('div', id="contents")
+    html_file = open(html_filepath, 'r', encoding='utf8')
 
-if containerElement:
-    videoList = containerElement.find_all(id='video-title')
+    html_content = html_file.read()
 
-    if videoList:
-        for video in videoList:
-            videoTitle = video.get_text().strip(' \n')
-            videoHref = video['href']
+    parsed_html = BeautifulSoup(html_content, 'html.parser')
 
-            print(f' ============================================ \n Downloading {
-                videoTitle} \n ============================================')
+    container_element = parsed_html.find('div', id="contents")
 
-            YT_DLP_COMMAND = r'C:\Users\Ben\Desktop\yt-dlp.exe'
-            OUTPUT_PATH = r'C:\Users\Ben\Documents\Development\youtube-download\downloads'
+    if container_element:
+        video_list = container_element.find_all(id='video-title')
 
-            videoUrl = 'https://youtube.com' + videoHref
+        if video_list:
+            for index, video in enumerate(video_list):
+                video_title = video.get_text().strip(' \n')
+                video_href = video['href']
+                message = f'{index + 1}. Downloading {video_title}'
+                equal_signs = create_string('=', len(message))
 
-            subprocess.run(
-                [YT_DLP_COMMAND, '-x', '--audio-format', 'mp3', '--paths', OUTPUT_PATH, videoUrl], check=True)
+                print(f' {equal_signs} \n {message} \n {equal_signs}')
+
+                yt_dlp_command = r'C:\Users\Ben\Desktop\yt-dlp.exe'
+                output_path = r'C:\Users\Ben\Documents\Development\youtube-download\downloads'
+
+                video_url = 'https://youtube.com' + video_href
+
+                subprocess.run(
+                    [yt_dlp_command, '-x', '--audio-format', 'mp3', '--paths', output_path, video_url], check=True)
+        else:
+            print('No videos found in container element.')
     else:
-        print('No videos found in container element.')
-else:
-    print('Container element not found.')
+        print('Container element not found.')
+
+
+download_videos()
