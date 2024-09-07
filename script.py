@@ -110,7 +110,16 @@ def download_videos():
     minutes = int((elapsed_time % 3600) // 60)
     seconds = int(elapsed_time % 60)
 
-    print(f'Elapsed time: {hours}h {minutes}m {seconds}s')
+    elapsed_time_message = 'Elapsed time: '
+
+    if hours:
+        elapsed_time_message = elapsed_time_message + str(hours) + 'h '
+    if minutes:
+        elapsed_time_message = elapsed_time_message + str(minutes) + 'm '
+    if seconds:
+        elapsed_time_message = elapsed_time_message + str(seconds) + 's '
+
+    print(elapsed_time_message)
 
 
 download_videos()
