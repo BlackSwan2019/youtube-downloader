@@ -8,6 +8,7 @@ import pickle
 import google_auth_oauthlib.flow
 import googleapiclient.errors
 import googleapiclient.discovery
+from slugify import slugify
 
 
 def get_credentials():
@@ -89,10 +90,15 @@ def download_videos():
         video_title = video_data['title']
         video_id = video_data['resourceId']['videoId']
 
-        # Skip download if file already exists.
-        if os.path.exists(rf'C:\Users\Ben\Documents\Development\youtube-downloader\downloads\{video_title}.mp3'):
+        current_directory = os.getcwd()
+        clean_filename = slugify(video_title)
+
+        video_file_path = rf'{current_directory}\downloads\{
+            clean_filename}.mp3'
+
+        if os.path.exists(video_file_path):
             print(
-                f'File "{video_title}.mp3" already exists. Skipping download.')
+                f'File "{clean_filename}.mp3" already exists. Skipping download.')
             continue
 
         message = f'{index + 1}. Downloading {video_title}'
@@ -106,7 +112,7 @@ def download_videos():
         video_url = 'https://youtube.com/watch?v=' + video_id
 
         subprocess.run(
-            [yt_dlp_command, '-x', '--audio-format', 'mp3', '-o', '%(title)s.%(ext)s', '--paths', output_path, video_url], check=True)
+            [yt_dlp_command, '-x', '--audio-format', 'mp3', '-o', f'{clean_filename}.%(ext)s', '--paths', output_path, video_url], check=True)
 
     end_time = time.time()
 
