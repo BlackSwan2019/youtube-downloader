@@ -24,12 +24,13 @@ if containerElement:
             print(f' ============================================ \n Downloading {
                 videoTitle} \n ============================================')
 
+            YT_DLP_COMMAND = r'C:\Users\Ben\Desktop\yt-dlp.exe'
             OUTPUT_PATH = r'C:\Users\Ben\Documents\Development\youtube-download\downloads'
 
             videoUrl = 'https://youtube.com' + videoHref
 
             subprocess.run(
-                [r'C:\Users\Ben\Desktop\yt-dlp.exe', '--extract-audio', '--audio-format', 'mp3', '--paths', OUTPUT_PATH, videoUrl], check=True)
+                [YT_DLP_COMMAND, '-x', '--audio-format', 'mp3', '--paths', OUTPUT_PATH, videoUrl], check=True)
     else:
         print('No videos found in container element.')
 else:
