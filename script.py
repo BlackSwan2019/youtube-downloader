@@ -1,8 +1,11 @@
-# import subprocess
+"""Script for downloading many YouTube videos"""
+
+import subprocess
 from bs4 import BeautifulSoup
 
-htmlFile = open(
-    r'C:\Users\Ben\Documents\Development\youtube-download\source.html', 'r', encoding='utf8')
+HTML_FILEPATH = r'C:\Users\Ben\Documents\Development\youtube-download\source.html'
+
+htmlFile = open(HTML_FILEPATH, 'r', encoding='utf8')
 
 htmlContent = htmlFile.read()
 
@@ -15,9 +18,15 @@ if element:
 
     for htmlNode in childElements:
         # print(htmlNode)
+        # print('\n\n')
+
         videoTitle = htmlNode.get_text().strip(' \n')
         videoHref = htmlNode['href']
-        print('Video: ' + videoTitle)
-        print('URL: ' + 'https://youtube.com' + videoHref)
 
-# subprocess.run(["C:\\Users\Ben\Desktop\yt-dlp.exe", "https://youtube.com/watch?v=d-FWb0qROIg&amp;list=LL&amp;index=694&amp;pp=gAQBiAQB8AUB"])
+        print('============================================\n' + 'Downloading ' +
+              videoTitle + '\n============================================')
+
+        videoUrl = 'https://youtube.com' + videoHref
+
+        subprocess.run(
+            [r'C:\Users\Ben\Desktop\yt-dlp.exe', videoUrl], check=True)
