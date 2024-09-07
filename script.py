@@ -92,7 +92,7 @@ def download_videos():
         message = f'{index + 1}. Downloading {video_title}'
         equal_signs = create_string('=', len(message))
 
-        print(f' {equal_signs} \n {message} \n {equal_signs}')
+        print(f'{equal_signs}\n{message}\n{equal_signs}')
 
         yt_dlp_command = 'yt-dlp.exe'
         output_path = 'downloads'
