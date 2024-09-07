@@ -1,6 +1,7 @@
 """Script for downloading many YouTube videos"""
 
 import subprocess
+import time
 from bs4 import BeautifulSoup
 
 
@@ -11,6 +12,9 @@ def create_string(char, n):
 
 def download_videos():
     """Download the list of videos"""
+
+    start_time = time.time()
+
     html_filepath = 'source.html'
 
     html_file = open(html_filepath, 'r', encoding='utf8')
@@ -40,6 +44,16 @@ def download_videos():
 
                 subprocess.run(
                     [yt_dlp_command, '-x', '--audio-format', 'mp3', '--paths', output_path, video_url], check=True)
+
+            end_time = time.time()
+
+            elapsed_time = end_time - start_time
+
+            hours = int(elapsed_time // 3600)
+            minutes = int((elapsed_time % 3600) // 60)
+            seconds = int(elapsed_time % 60)
+
+            print(f'Elapsed time: {hours}h {minutes}m {seconds}s')
         else:
             print('No videos found in container element.')
     else:
