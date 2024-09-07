@@ -5,11 +5,9 @@ import sys
 import subprocess
 import time
 import pickle
-import json
 import google_auth_oauthlib.flow
 import googleapiclient.errors
 import googleapiclient.discovery
-from bs4 import BeautifulSoup
 
 
 def get_credentials():
