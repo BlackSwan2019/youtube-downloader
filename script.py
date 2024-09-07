@@ -3,7 +3,7 @@
 import subprocess
 from bs4 import BeautifulSoup
 
-HTML_FILEPATH = r'C:\Users\Ben\Documents\Development\youtube-download\source.html'
+HTML_FILEPATH = r'C:\Users\Ben\Documents\Development\youtube-download\fullSource.html'
 
 htmlFile = open(HTML_FILEPATH, 'r', encoding='utf8')
 
@@ -11,22 +11,26 @@ htmlContent = htmlFile.read()
 
 parsedHtml = BeautifulSoup(htmlContent, 'html.parser')
 
-element = parsedHtml.find('div', id="contents")
+containerElement = parsedHtml.find('div', id="contents")
 
-if element:
-    childElements = element.find_all(id='video-title')
+if containerElement:
+    videoList = containerElement.find_all(id='video-title')
 
-    for htmlNode in childElements:
-        # print(htmlNode)
-        # print('\n\n')
+    if videoList:
+        for video in videoList:
+            videoTitle = video.get_text().strip(' \n')
+            videoHref = video['href']
 
-        videoTitle = htmlNode.get_text().strip(' \n')
-        videoHref = htmlNode['href']
+            print(f' ============================================ \n Downloading {
+                videoTitle} \n ============================================')
 
-        print('============================================\n' + 'Downloading ' +
-              videoTitle + '\n============================================')
+            OUTPUT_PATH = r'C:\Users\Ben\Documents\Development\youtube-download\downloads'
 
-        videoUrl = 'https://youtube.com' + videoHref
+            videoUrl = 'https://youtube.com' + videoHref
 
-        subprocess.run(
-            [r'C:\Users\Ben\Desktop\yt-dlp.exe', videoUrl], check=True)
+            subprocess.run(
+                [r'C:\Users\Ben\Desktop\yt-dlp.exe', '--extract-audio', '--audio-format', 'mp3', '--paths', OUTPUT_PATH, videoUrl], check=True)
+    else:
+        print('No videos found in container element.')
+else:
+    print('Container element not found.')
